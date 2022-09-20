@@ -5,54 +5,84 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useState } from 'react';
 
 export default function App() {
+  let [username, setUsername] = useState("")
+  let [password, setPassword] = useState("")
+
+  const handleLogin = () => {
+    Alert.alert("Login Info", `${username} & ${password}`)
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.innerView}>
-        <Text style={styles.loginHeading}>Login</Text>
-        <View style={styles.innerContent}>
-          <Text style={styles.label}>Username</Text>
-          <View style={styles.textInput}>
-            <Image
-              source={require("./assets/person.png")}
-              style={styles.inputLogo}
-            />
-            <TextInput placeholder="Type your username" />
-          </View>
-          <Text style={styles.label}>Password</Text>
-          <View style={styles.textInput}>
-            <Image
-              source={require("./assets/lock.png")}
-              style={styles.inputLogo}
-            />
-            <TextInput placeholder="Type your password" />
-          </View>
-          <Text style={styles.forgotPassword}>Forget Password?</Text>
-          <TouchableOpacity style={styles.loginButton}>
+    <View style={styles.innerView}>
+      <Text style={styles.loginHeading}>Login</Text>
+      <View style={styles.innerContent}>
+        <Text style={styles.label}>Username</Text>
+        <View style={styles.textInput}>
+          <Image
+            source={require("./assets/person.png")}
+            style={styles.inputLogo}
+          />
+          <TextInput
+            placeholder="Type your username"
+            style={{ width: "90%" }}
+            onChangeText={(val) => setUsername(val)}
+            value={username}
+          />
+        </View>
+        <Text style={styles.label}>Password</Text>
+        <View style={styles.textInput}>
+          <Image
+            source={require("./assets/lock.png")}
+            style={styles.inputLogo}
+          />
+          <TextInput
+            placeholder="Type your password"
+            style={{ width: "90%" }}
+            onChangeText={(val) => setPassword(val)}
+            value={password}
+          />
+        </View>
+        <TouchableOpacity><Text style={styles.forgotPassword}>Forget Password?</Text></TouchableOpacity>
+        <TouchableOpacity onPress={handleLogin}>
+          <LinearGradient
+            style={styles.loginButton}
+            colors={["#b964bb", "#1ecbe1"]}
+            start={[0.75, 0]}
+          >
             <Text style={{ fontWeight: "500", color: "white" }}>LOGIN</Text>
-          </TouchableOpacity>
-          <Text style={styles.signupLabel}>Or Signup using</Text>
-          <View style={styles.logoContainer}>
+          </LinearGradient>
+        </TouchableOpacity>
+        <Text style={styles.signupLabel}>Or Signup using</Text>
+        <View style={styles.logoContainer}>
+          <TouchableOpacity>
             <Image
               source={require("./assets/facebook.png")}
               style={styles.logo}
             />
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Image
               source={require("./assets/twitter.png")}
               style={styles.logo}
             />
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Image
               source={require("./assets/google.png")}
               style={styles.logo}
             />
-          </View>
+          </TouchableOpacity>
         </View>
-        <View>
-          <Text style={styles.label}>Or Sign Up Using</Text>
-          <Text style={styles.signupBottomLabel}>SIGN UP</Text>
-        </View>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <Text style={[styles.label, { opacity: 0.7 }]}>Or Sign Up Using</Text>
+        <TouchableOpacity><Text style={styles.signupBottomLabel}>SIGN UP</Text></TouchableOpacity>
       </View>
     </View>
   );
@@ -68,21 +98,21 @@ const styles = StyleSheet.create({
   innerView: {
     backgroundColor: "#fff",
     alignItems: "center",
-    height: "80%",
-    width: "90%",
     borderRadius: 5,
+    flex: 1,
     paddingVertical: 50,
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   innerContent: {
     width: "80%",
   },
   loginHeading: {
-    fontSize: 25,
+    fontSize: 30,
+    fontWeight: "bold"
   },
   label: {
     fontSize: 12,
-    marginTop: 20,
+    marginTop: 25,
     fontWeight: "500",
   },
   textInput: {
@@ -91,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "grey",
-    paddingHorizontal: 8,
+    paddingHorizontal: 3,
     paddingVertical: 5,
   },
   forgotPassword: {
@@ -106,27 +136,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 20,
-    backgroundColor: "#b964bb",
     borderRadius: 50,
     padding: 5,
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
+    marginHorizontal: 2
   },
   logoContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center"
   },
   signupLabel: {
-    fontSize: 10,
+    fontSize: 12,
     textAlign: "center",
     marginBottom: 10,
     marginTop: 30,
   },
   signupBottomLabel: {
     textAlign: "center",
-    marginTop: 5,
+    marginTop: 8,
+    fontWeight: "700"
   },
   inputLogo: {
     width: 22,
