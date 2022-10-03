@@ -50,13 +50,13 @@ export default function LoginScreen() {
                 </View>
                 <TouchableOpacity><Text style={styles.forgotPassword}>Forget Password?</Text></TouchableOpacity>
                 <TouchableOpacity onPress={handleLogin}>
-                    {/* <LinearGradient
+                    <LinearGradient
                         style={styles.loginButton}
                         colors={["#b964bb", "#1ecbe1"]}
                         start={[0.75, 0]}
                     >
                         <Text style={{ fontWeight: "500", color: "white" }}>LOGIN</Text>
-                    </LinearGradient> */}
+                    </LinearGradient>
                 </TouchableOpacity>
                 <Text style={styles.signupLabel}>Or Signup using</Text>
                 <View style={styles.logoContainer}>

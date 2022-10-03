@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, FlatList, TouchableOpacity, Image } from 'react-native';
 
 export default function Universities() {
@@ -16,15 +16,17 @@ export default function Universities() {
     const [data, setData] = useState([
         { key: 0, name: 'Comsats University', city: 'Lahore', ranking: 'Top 10', fee: 100000, rank: 8, country: 'Pakistan', image: require('../assets/comsats.jpg') },
         { key: 1, name: 'Punjab University', city: 'Lahore', ranking: 'Top 50', fee: 60000, rank: 18, country: 'Pakistan', image: require('../assets/pucit.jpg') },
-        { key: 2, name: 'University of Engineering and Technology', city: 'Lahore', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Pakistan', image: require('../assets/uet.jpg') },
-        { key: 3, name: 'Kabul University', city: 'Kabul', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Afghanistan', image: require('../assets/kabul.jpg') },
+        { key: 2, name: 'Kabul University', city: 'Kabul', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Afghanistan', image: require('../assets/kabul.jpg') },
+        { key: 3, name: 'University of Engineering and Technology', city: 'Lahore', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Pakistan', image: require('../assets/uet.jpg') },
         { key: 4, name: 'University of Management and Technology', city: 'Lahore', ranking: 'Top 100', fee: 145000, rank: 98, country: 'Pakistan', image: require('../assets/umt.jpg') },
         { key: 5, name: 'PIEAS University', city: 'Islamabad', ranking: 'Top 100', fee: 45000, rank: 18, country: 'Pakistan', image: require('../assets/pieas.jpg') },
     ])
 
     const [displayedData, setDisplayedData] = useState(data)
 
-    const [applyFilter, setApplyFilter] = useState(true)
+    useEffect(() => {
+        setDisplayedData(applyFilters())
+    }, [appliedfilters])
 
     const addFilter = (item) => {
         if (appliedfilters.filter(newItem => newItem.title === item.title).length) { return }
@@ -33,33 +35,26 @@ export default function Universities() {
                 prev.push(item)
                 return [...prev]
             })
-            // setDisplayedData(applyFilters())
-            console.log('----')
-            console.log(applyFilters())
-            console.log('----')
-            setApplyFilter(true)
         }
     }
 
     const handleDeleteFilter = (item) => {
-        setApplyFilter(false)
         setAppliedFilters(prev => prev.filter(newItem => newItem.title !== item.title))
-        // setDisplayedData(applyFilters())
-        console.log('----')
-        console.log(applyFilters())
-        console.log('----')
     }
 
     const applyFilters = () => {
-        let newData
+        let newData = data
         appliedfilters.forEach(item => {
             switch (item.title) {
                 case 'City':
-                    if (applyFilter) {
-                        newData = data.filter(newItem => newItem.city === 'Lahore')
-                    }
-                default:
-                    newData = data
+                    newData = newData.filter(newItem => newItem.city === 'Lahore')
+                    return
+                case 'Country':
+                    newData = newData.filter(newItem => newItem.country === 'Pakistan')
+                    return
+                case 'Fee':
+                    newData = newData.filter(newItem => newItem.fee <= 80000)
+                    return
             }
         })
         return newData
@@ -132,6 +127,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: StatusBar.currentHeight + 10
     },
 });
