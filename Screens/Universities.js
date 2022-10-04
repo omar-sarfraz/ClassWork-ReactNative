@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 
 export default function Universities() {
     const [filters, setFilters] = useState([
-        { key: 0, title: 'Fee' },
-        { key: 1, title: 'Ranking' },
-        { key: 2, title: 'City' },
-        { key: 3, title: 'Country' },
-        { key: 4, title: 'Admissions' },
-        { key: 5, title: 'Status' },
+        { key: 0, title: 'Fee', filter: '< 80000' },
+        { key: 1, title: 'Ranking', filter: 'Top 50' },
+        { key: 2, title: 'City', filter: 'Lahore' },
+        { key: 3, title: 'Country', filter: 'Pakistan' },
+        { key: 4, title: 'Admissions', filter: '' },
+        { key: 5, title: 'Status', filter: '' },
     ])
 
     const [appliedfilters, setAppliedFilters] = useState([])
@@ -16,7 +16,7 @@ export default function Universities() {
     const [data, setData] = useState([
         { key: 0, name: 'Comsats University', city: 'Lahore', ranking: 'Top 10', fee: 100000, rank: 8, country: 'Pakistan', image: require('../assets/comsats.jpg') },
         { key: 1, name: 'Punjab University', city: 'Lahore', ranking: 'Top 50', fee: 60000, rank: 18, country: 'Pakistan', image: require('../assets/pucit.jpg') },
-        { key: 2, name: 'Kabul University', city: 'Kabul', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Afghanistan', image: require('../assets/kabul.jpg') },
+        { key: 2, name: 'Kabul University', city: 'Kabul', ranking: 'Top 100', fee: 40000, rank: 88, country: 'Afghanistan', image: require('../assets/kabul.jpg') },
         { key: 3, name: 'University of Engineering and Technology', city: 'Lahore', ranking: 'Top 100', fee: 45000, rank: 88, country: 'Pakistan', image: require('../assets/uet.jpg') },
         { key: 4, name: 'University of Management and Technology', city: 'Lahore', ranking: 'Top 100', fee: 145000, rank: 98, country: 'Pakistan', image: require('../assets/umt.jpg') },
         { key: 5, name: 'PIEAS University', city: 'Islamabad', ranking: 'Top 100', fee: 45000, rank: 18, country: 'Pakistan', image: require('../assets/pieas.jpg') },
@@ -47,13 +47,16 @@ export default function Universities() {
         appliedfilters.forEach(item => {
             switch (item.title) {
                 case 'City':
-                    newData = newData.filter(newItem => newItem.city === 'Lahore')
+                    newData = newData.filter(newItem => newItem.city === item.filter)
                     return
                 case 'Country':
-                    newData = newData.filter(newItem => newItem.country === 'Pakistan')
+                    newData = newData.filter(newItem => newItem.country === item.filter)
                     return
                 case 'Fee':
                     newData = newData.filter(newItem => newItem.fee <= 80000)
+                    return
+                case 'Ranking':
+                    newData = newData.filter(newItem => newItem.rank < 50)
                     return
             }
         })
@@ -94,7 +97,7 @@ export default function Universities() {
                             <View style={{ backgroundColor: 'white', opacity: 0.85, width: 18, height: 18, borderBottomLeftRadius: 10, alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0, top: 0 }}>
                                 <Text style={{ fontSize: 8 }}>❌</Text>
                             </View>
-                            <Text style={{ fontSize: 14, color: 'white' }}>{item.title}</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{item.title} {item.filter}</Text>
                         </TouchableOpacity>
                     }
                     keyExtractor={(item) => item.key}
